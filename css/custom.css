@@ -1,163 +1,46 @@
-#article-container h1:before,
-#article-container h2:before,
-#article-container h3:before,
-#article-container h4:before,
-#article-container h5:before,
-#article-container h6:before,
-#post .post-outdate-notice:before,
-.fontawesomeIcon,
-.note:not(.no-icon)::before,
-hr:before {
-    display: inline-block;
-    font-weight: 600;
-    font-style: normal;
-    font-variant: normal;
-    font-family: 'Font Awesome 5 Free';
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased
+/* Twikoo 评论样式 */
+
+.tk-input .el-textarea__inner {
+    min-height: 120px !important;
 }
 
-#article-container h1:before,
-#article-container h2:before,
-#article-container h3:before,
-#article-container h4:before,
-#article-container h5:before,
-#article-container h6:before {
-    position: absolute;
-    color: #f47466;
-    /* 回形针 */
-    content: '\f0c1';
-    line-height: 1;
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    -ms-transition: all .2s ease-out;
-    transition: all .2s ease-out;
-    /* 若要使用风车效果，请去掉下面的注释 */
-    content: '\f863'; 
-    animation: avatar_turn_around 1s linear infinite;
+#twikoo .OwO-body {
+    max-width: 100% !important;
 }
 
-#article-container h1 {
-    padding-left: 1.4rem
+#twikoo .OwO .OwO-body .OwO-items:nth-child(1),
+#twikoo .OwO .OwO-body .OwO-items:nth-child(4) {
+    max-height: 360px !important;
 }
 
-#article-container h1 code {
-    font-size: 1rem
+#twikoo .OwO-items li[title|=menhera] img {
+    width: 100% !important;
+    margin: 5px 10px;
 }
 
-#article-container h1:before {
-    margin-left: -1.3rem;
-    top: calc(50% - .5rem);
-    font-size: 1rem
+.tk-comment .tk-owo-emotion[alt*=menhera] {
+    width: 300px !important;
 }
 
-#article-container h1:hover {
-    padding-left: 1.6rem
+.tk-comment .vemoji[alt|=menhera],
+.tk-comment .tk-owo-emotion[alt*=menhera] {
+    max-width: 300px !important;
+    max-height: 300px !important;
+    margin: 8px 1px;
+    display: block !important;
 }
 
-#article-container h2 {
-    padding-left: 1.3rem
-}
+@media screen and (max-width: 768px) {
 
-#article-container h2 code {
-    font-size: .9rem
-}
+    .tk-comment .vemoji[alt|=menhera],
+    .tk-comment .tk-owo-emotion[alt*=menhera] {
+        max-width: calc(100% - 30px) !important;
+        max-height: calc(100% - 30px) !important;
+    }
 
-#article-container h2:before {
-    margin-left: -1.4rem;
-    top: calc(50% - .45rem);
-    font-size: .9rem
-}
+    .OwO .OwO-body .OwO-items-image .OwO-item[title*=menhera] {
+        max-width: calc(50% - 10px);
+        box-sizing: border-box;
+    }
 
-#article-container h2:hover {
-    padding-left: 1.5rem
-}
-
-#article-container h3 {
-    padding-left: 1.2rem
-}
-
-#article-container h3 code {
-    font-size: .8rem;
-    top: calc(50% - .4rem);
-
-}
-
-#article-container h3:before {
-    margin-left: -1.2rem;
-    top: calc(50% - .4rem);
-    font-size: .8rem
-}
-
-#article-container h3:hover {
-    padding-left: 1.4rem
-}
-
-#article-container h4 {
-    padding-left: 1.1rem
-}
-
-#article-container h4 code {
-    font-size: .7rem
-}
-
-#article-container h4:before {
-    margin-left: -1rem;
-    top: calc(50% - .35rem);
-    font-size: .7rem
-}
-
-#article-container h4:hover {
-    padding-left: 1.3rem
-}
-
-#article-container h5 {
-    padding-left: 1rem
-}
-
-#article-container h5 code {
-    font-size: .6rem
-}
-
-#article-container h5:before {
-    margin-left: -.8rem;
-    top: calc(50% - .3rem);
-    font-size: .6rem
-}
-
-#article-container h5:hover {
-    padding-left: 1.2rem
-}
-
-#article-container h6 {
-    padding-left: 1rem
-}
-
-#article-container h6 code {
-    font-size: .6rem
-}
-
-#article-container h6:before {
-    margin-left: -.8rem;
-    top: calc(50% - .3rem);
-    font-size: .6rem
-}
-
-#article-container h6:hover {
-    padding-left: 1.2rem
-}
-body {
-    cursor: url(https://bu.dusays.com/2022/05/17/6283c365d20dd.png), auto;
-}
-
-.hide-block>.hide-button.open,
-.hide-inline>.hide-button.open {
-    display: block
-}
-
-a,
-button,
-img {
-    cursor: url(https://bu.dusays.com/2022/05/17/6283c376afcfc.png), auto
 }
