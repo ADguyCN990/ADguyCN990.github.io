@@ -4,6 +4,43 @@
   
     
     <entry>
+      <title>django项目</title>
+      <link href="/adguy/fcae1915.html"/>
+      <url>/adguy/fcae1915.html</url>
+      
+        <content type="html"><![CDATA[<h3 id="项目描述"><a href="#项目描述" class="headerlink" title="项目描述"></a>项目描述</h3><p>此项目是一款基于 Django 的在线对抗游戏，支持联机对战并可依据玩家段位分数进行匹配</p><h3 id="应用技术"><a href="#应用技术" class="headerlink" title="应用技术"></a>应用技术</h3><p>Python、Django、Thrift、Js、Css、WebSocket、radius</p><h3 id="项目功能"><a href="#项目功能" class="headerlink" title="项目功能"></a>项目功能</h3><ul><li>自主研发的游戏引擎以实现游戏界面的动态渲染功能</li><li>单人模式下支持 NPC 随机移动并计算概率以定时向其它 NPC 或用户发射炮弹</li><li>多人模式下支持联机对战，使用 thrift 在多线程下实现的消息队列、阈值扩大、匹配策略以及匹配成功后的处理方式</li><li>多人模式下使用 Django 自带的 websocket 通信实现对战中的同步机制如聊天功能</li><li>系统支持多端登录使用，既支持网页端，也支持 Acapp 端的使用（类似小程序），其信息也是保持同步的</li><li>使用 shell 脚本对代码打包并利用代码压缩工具防止程序被破解</li></ul><h3 id="项目成果"><a href="#项目成果" class="headerlink" title="项目成果"></a>项目成果</h3><p>独立开发出一款竞技游戏。联机对战与匹配系统增加了游戏的竞技性、实时渲染与粒子效果粉饰了游戏的画面感、 聊天机制与被动技能也提高了游戏的互动性。</p><h3 id="项目可改进"><a href="#项目可改进" class="headerlink" title="项目可改进:"></a>项目可改进:</h3><ul><li>暂时还没办法显示天梯分，可以完善天梯榜单功能</li><li>提供用户上传头像的界面</li><li>优化对战平台的界面美化</li><li>允许玩家自定义挑战难度</li><li>允许玩家自定义匹配人数，如3人匹配，4人匹配</li><li>多样化技能，例如“护盾”技能</li><li>…</li></ul><h3 id="项目展示："><a href="#项目展示：" class="headerlink" title="项目展示："></a>项目展示：</h3><p><a href="https://app2796.acapp.acwing.com.cn/">点击进入</a></p><h3 id="项目源码"><a href="#项目源码" class="headerlink" title="项目源码:"></a>项目源码:</h3><p><a href="https://github.com/ADguyCN990/acwing-django-lesson">访问github仓库</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 工程 </category>
+          
+          <category> python </category>
+          
+          <category> django </category>
+          
+          <category> acwing </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 工程 </tag>
+            
+            <tag> python </tag>
+            
+            <tag> django </tag>
+            
+            <tag> acwing </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/adguy/4a17b156.html"/>
       <url>/adguy/4a17b156.html</url>
