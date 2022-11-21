@@ -3,22 +3,23 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
-author: John Doe
-language: en
-timezone: ''
+title: '金晖のBlog'
+subtitle: 
+description: '十年饮冰，难凉热血'
+keywords: 
+author: ADguy
+language: zh-CN
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: http://example.com
-permalink: :year/:month/:day/:title/
-permalink_defaults:
-pretty_urls:
-  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
-  trailing_html: true # Set to false to remove trailing '.html' from permalinks
+# - permalink: :year/:month/:day/:title/
+#修改为
+permalink: adguy/:abbrlink.html # post为自定义前缀
+abbrlink:
+  alg: crc32   #算法： crc16(default) and crc32
+  rep: hex     #进制： dec(default) and hex
 
 # Directory
 source_dir: source
@@ -97,9 +98,70 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: 'git'
+  repository: git@github.com:ADguyCN990/ADguyCN990.github.io.git
+  branch: master
+
+algolia:
+  appId: "HNQPWHKMPR"
+  apiKey: "15737636bdb1d2453b1b0994fd07081a"
+  adminApiKey: "d80f1ab0a6f7ccb2b5927bf5bd3ab0b8"
+  chunkSize: 5000
+  indexName: "sb"
+  fields:
+    - content:strip:truncate,0,500
+    - excerpt:strip
+    - gallery
+    - permalink
+    - photos
+    - slug
+    - tags
+    - title
+  
+live2d:
+  enable: true
+  scriptFrom: local # 默认
+  tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中
+  debug: false # 调试, 是否在控制台输出日志
+  model:
+    use: live2d-widget-model-hibiki  #模型选择
+  display:
+    position: right  #模型位置
+    width: 150       #模型宽度
+    height: 360      #模型高度
+    hOffset: 20
+    vOffset: -20
+  mobile:
+    show: true      #是否在手机端显示
+
+electric_clock:
+  enable: true # 开关
+  priority: 5 #过滤器优先权
+  enable_page: all # 应用页面
+  exclude:
+    # - /posts/
+    # - /about/
+  layout: # 挂载容器类型
+    type: class
+    name: sticky_layout
+    index: 0
+  loading: https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif #加载动画自定义
+  clock_css: https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css
+  clock_js: https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js
+  ip_api: https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0
+  # 和风天气key 默认是 b16a1fa0e63c46a4b8f28abfb06ae3fe
+  qweather_key: 5f4f6e4127424bb58cb4453d5dc53e66
+  # 高得地图web服务key 默认为 e2b04289e870b005374ee030148d64fd&s=rsv3
+  gaud_map_key: 86560bbf74c1ecb5465e430c47d52986
+  default_rectangle: false # 开启后将一直显示rectangle位置的天气，否则将获取访问者的地理位置与天气
+  rectangle: 112.982279,28.19409 # 获取访问者位置失败时会显示该位置的天气，同时该位置为开启default_rectangle后的位置
+
+
+
+
+
