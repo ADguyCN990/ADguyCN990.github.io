@@ -147,3 +147,17 @@ hr:before {
 #article-container h6:hover {
     padding-left: 1.2rem
 }
+body {
+    cursor: url(https://bu.dusays.com/2022/05/17/6283c365d20dd.png), auto;
+}
+
+.hide-block>.hide-button.open,
+.hide-inline>.hide-button.open {
+    display: block
+}
+
+a,
+button,
+img {
+    cursor: url(https://bu.dusays.com/2022/05/17/6283c376afcfc.png), auto
+}
