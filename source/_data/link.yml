@@ -8,7 +8,47 @@
     - name: paradoxskinの博客
       link: https://paradoxskin.github.io/
       avatar: https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/45301314.png
+      descr: vim狂热爱好者，敲代码不加空格星人。
+    - name: 跳岩企鹅の博客
+      link: https://blog.csdn.net/m0_49708728?type=blog
+      avatar: https://adguycn990-typoraimage.oss-cn-hangzhou.aliyuncs.com/202212072159086.webp
       descr: 古今之成大事者，不惟有超世之才，亦必有坚忍不拔之志。
+    - name: Here_SDUT
+      link: https://fangkaipeng.com
+      avatar: https://img.fangkaipeng.com/blog_img/20220422210154.png
+      descr: 退役 ACMer・ML 炼丹入门学徒・准科研人的学习记录
+    - name: 张洪Heo
+      link: https://blog.zhheo.com/
+      avatar: https://img.zhheo.com/i/2022/08/19/62ff32fa28da1.png
+      descr: 分享设计与科技生活
+    - name: 杜老师说
+      link: https://dusays.com/
+      avatar: https://cdn.dusays.com/avatar.png
+      descr: 杜老师说
+    - name: Ariasakaの小窝
+      link: https://yisous.xyz
+      avatar: https://bu.dusays.com/2022/12/15/639a9ebbbc1ad.jpg
+      descr: 人有悲欢离合 月有阴晴圆缺
+    - name: Yang's Harbor
+      link: https://discover304.top/
+      avatar: https://discover304.top/img/head.jpg
+      descr: Space of Tech, Love and Thought.
+    - name: 小N同学
+      link: https://www.imcharon.com/
+      avatar: https://public.cdn.nesxc.com/avatar.jpg
+      descr: 青石落晚巷 故人未还乡
+    - name: 爱编程的小明
+      link: https://blog.kobal.cn/
+      avatar: https://gcore.jsdelivr.net/gh/kebuAAA/Picloud@main/img/avatar.webp
+      descr: 不要温和地走进那个良夜 
+    - name: Sianx's Blog
+      link: https://sianx.com
+      avatar: https://cdn.bilicdn.tk/npm/picture-sianx@1.0.0/Blog/logo.png
+      descr: 总之岁月漫长, 然而值得等待。
+    - name: Codeanime
+      link: https://codeanime.cc/
+      avatar: https://che.codeanime.xyz/images/2021/09/14/chimian.jpg
+      descr: 🌸さくら荘 の 一只二刺猿
 - class_name: 网站
   class_desc: 值得推荐的网站
   link_list:

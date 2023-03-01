@@ -1,0 +1,98 @@
+#rightMenu {
+    display: none;
+    position: fixed;
+    padding: 0 0.25rem;
+    width: 9rem;
+    height: fit-content;
+    top: 10%;
+    left: 10%;
+    background-color: var(--Jay-maskbgdeep);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    color: var(--Jay-fontcolor);
+    border-radius: 12px;
+    z-index: 99994;
+    border: var(--style-border);
+    user-select: none;
+    box-shadow: var(--Jay-shadow-black);
+}
+
+#rightMenu:hover {
+    border: var(--style-border-hover);
+    box-shadow: var(--Jay-shadow-theme);
+}
+
+#rightMenu .rightMenu-group {
+    padding: 0.35rem 0.3rem;
+    transition: 0.3s;
+}
+
+#rightMenu .rightMenu-line {
+    border-top: 1px dashed var(--Jay-theme-op);
+}
+
+#rightMenu .rightMenu-group.rightMenu-small {
+    display: flex;
+    justify-content: space-between;
+}
+
+#rightMenu .rightMenu-group .rightMenu-item {
+    border-radius: 8px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#rightMenu .rightMenu-line .rightMenu-item {
+    margin: 0.25rem 0;
+    padding: 0.25rem 0;
+}
+
+#rightMenu .rightMenu-group.rightMenu-line .rightMenu-item {
+    display: flex;
+}
+
+#rightMenu .rightMenu-group .rightMenu-item:hover {
+    background-color: var(--Jay-main);
+    color: var(--Jay-white);
+    box-shadow: var(--Jay-shadow-main);
+}
+
+#rightMenu .rightMenu-group .rightMenu-item:active {
+    transform: scale(0.97);
+}
+
+#rightMenu .rightMenu-group .rightMenu-item i {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.5rem;
+    width: 1.5rem;
+    padding: 0 0.25rem;
+}
+
+#rightMenu .rightMenu-line .rightMenu-item i {
+    margin: 0 0.25rem;
+}
+
+#rightMenu .rightMenu-group .rightMenu-item span {
+    line-height: 1.5rem;
+}
+
+.rightMenu-small .rightMenu-item {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+}
+
+#rightmenu-mask {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: none;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 101;
+    margin: 0 !important;
+    z-index: 99993;
+}
+

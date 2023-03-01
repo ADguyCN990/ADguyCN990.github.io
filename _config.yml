@@ -13,7 +13,7 @@ timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://adguy.top/
 # - permalink: :year/:month/:day/:title/
 #修改为
 permalink: adguy/:abbrlink.html # post为自定义前缀
@@ -122,6 +122,7 @@ algolia:
     - slug
     - tags
     - title
+    - categories
   
 live2d:
   enable: true
@@ -159,9 +160,14 @@ electric_clock:
   # 高得地图web服务key 默认为 e2b04289e870b005374ee030148d64fd&s=rsv3
   gaud_map_key: 86560bbf74c1ecb5465e430c47d52986
   default_rectangle: false # 开启后将一直显示rectangle位置的天气，否则将获取访问者的地理位置与天气
-  rectangle: 112.982279,28.19409 # 获取访问者位置失败时会显示该位置的天气，同时该位置为开启default_rectangle后的位置
+  rectangle: 120.36903598826007,30.327400983734716 # 获取访问者位置失败时会显示该位置的天气，同时该位置为开启default_rectangle后的位置
 
-
-
+markdown_it_plus:
+  plugins:
+    - plugin:
+      name: '@neilsustc/markdown-it-katex'
+      enable: true
+      options:
+        strict: false
 
 
